@@ -7,19 +7,40 @@ import { db } from './db/db'
 function App() {
 
     const [data, setData] = useState(db)
+    const [cart, setCart] = useState([])
+
+    function addToCart(item){
+        const itemExist = cart.findIndex((guitar) => guitar.id === item.id)
+        if(itemExist >= 0){
+            const updateCart = [...cart]
+            updateCart[itemExist].quantity++
+            setCart(updateCart)
+        } else {
+            item.quantity = 1
+            setCart(cart=>[...cart, item])
+            console.log('El producto no existe, agregando')
+        }
+        console.log(cart)
+    }
 
 
   return (
     <>
-    <Header />
+    <Header
+    
+    cart={cart}
+    />
     
     <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
 
         <div className="row mt-5">
             {data.map((pen) => (
-                <Guitar 
-                guitar={pen}
+                <Guitar
+                key={pen.id}
+                    guitar={pen}
+                    setCart={setCart}
+                    addToCart={addToCart}
                 />
             ))}
         </div>

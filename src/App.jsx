@@ -6,8 +6,17 @@ import { db } from './db/db'
 
 function App() {
 
+    const initialCart = () => {
+        const localStorageCart = localStorage.getItem('cart')
+        return localStorageCart ? JSON.parse(localStorageCart) : []
+    }
     const [data, setData] = useState(db)
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState(initialCart)
+    useEffect(()=> {
+        localStorage.setItem('cart', JSON.stringify(cart))
+
+    }, [cart])
+
     const MAX_ITEMS = 5
     const MIN_ITEMS = 1
 
@@ -24,6 +33,7 @@ function App() {
         }
         console.log(cart)
     }
+
 
     function removeFromCart(id){
         setCart(prevCart => prevCart.filter(nike => nike.id !== id))
@@ -50,7 +60,7 @@ function App() {
     function clearCart(){
         setCart([])
     }
-
+    
 
   return (
     <>

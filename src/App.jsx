@@ -1,5 +1,5 @@
 import Header from './components/Header'
-import Guitar from  './components/Guitar'
+import Nike from  './components/Nike'
 import { useState, useEffect } from 'react'
 import { db } from './db/db'
 
@@ -8,9 +8,11 @@ function App() {
 
     const [data, setData] = useState(db)
     const [cart, setCart] = useState([])
+    const MAX_ITEMS = 5
+    const MIN_ITEMS = 1
 
     function addToCart(item){
-        const itemExist = cart.findIndex((guitar) => guitar.id === item.id)
+        const itemExist = cart.findIndex((nike) => nike.id === item.id)
         if(itemExist >= 0){
             const updateCart = [...cart]
             updateCart[itemExist].quantity++
@@ -23,11 +25,41 @@ function App() {
         console.log(cart)
     }
 
+    function removeFromCart(id){
+        setCart(prevCart => prevCart.filter(nike => nike.id !== id))
+    }
+
+    function addItem(id){
+        const updateCart = cart.map((item) => {
+            if(item.id === id && item.quantity < MAX_ITEMS){
+                item.quantity++
+            }
+            return item
+        })
+        setCart(updateCart)
+    }
+    function removeItem(id){
+        const updateCart = cart.map((item) => {
+            if(item.id === id && item.quantity > MIN_ITEMS){
+                item.quantity--
+            }
+            return item
+        })
+        setCart(updateCart)
+    }
+    function clearCart(){
+        setCart([])
+    }
+
 
   return (
     <>
     <Header
-    
+    clearCart={clearCart}
+    addItem={addItem}
+    removeItem={removeItem}
+    removeFromCart={removeFromCart}
+    setCart={setCart}
     cart={cart}
     />
     
@@ -36,9 +68,9 @@ function App() {
 
         <div className="row mt-5">
             {data.map((pen) => (
-                <Guitar
+                <Nike
                 key={pen.id}
-                    guitar={pen}
+                    nike={pen}
                     setCart={setCart}
                     addToCart={addToCart}
                 />
@@ -49,7 +81,7 @@ function App() {
 
     <footer className="bg-dark mt-5 py-5">
         <div className="container-xl">
-            <p className="text-white text-center fs-4 mt-4 m-md-0">GuitarLA - Todos los derechos Reservados</p>
+            <p className="text-white text-center fs-4 mt-4 m-md-0">NikeLA - Todos los derechos Reservados</p>
         </div>
     </footer>
  

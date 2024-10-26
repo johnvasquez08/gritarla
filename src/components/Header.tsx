@@ -1,7 +1,16 @@
-import { useMemo } from 'react'
-import { useCart } from '../Hooks/useCart'
+import { CartItem, Nike } from "../types";
+type HeaderProps = {
+    cart: CartItem[]
+    removeFromCart: (id: Nike['id']) => void
+    addItem: (id: Nike['id']) => void
+    removeItem: (id: Nike['id']) => void
+    clearCart: () => void
+    isEmpty: boolean
+    carTotal: number
 
-function Header({cart, removeFromCart, addItem, removeItem, clearCart, isEmpty, carTotal }) {
+}
+function Header({cart, removeFromCart, addItem, removeItem, clearCart, isEmpty, carTotal } : HeaderProps) {
+    
     
     return (
         <header className="py-5 header">

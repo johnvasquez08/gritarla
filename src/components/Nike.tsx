@@ -1,7 +1,12 @@
-export default function Nike({nike, addToCart}) {
-    const { name, description, price, image, id } = nike
+import type { Nike } from "../types"
 
-    
+type NikeProps = {
+    nike: Nike
+    addToCart: (item: Nike) => void
+}
+
+export default function Nike({nike, addToCart} : NikeProps) {
+    const { name, description, price, image } = nike;
     return (
         <div className="col-md-6 col-lg-4 my-4 row align-items-center">
                 <div className="col-4">

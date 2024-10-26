@@ -1,4 +1,6 @@
-export const db = [
+import type { Nike } from "../types/index";
+
+export const db : Nike[] = [
     {
         id: 1,
         name: 'Jordan 1 Low',

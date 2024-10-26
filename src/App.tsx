@@ -1,6 +1,6 @@
-import Header from './components/Header'
-import Nike from  './components/Nike'
-import { useCart } from './hooks/useCart.js'
+import Header from './components/Header.js'
+import Nike from  './components/Nike.js'
+import { useCart } from './hooks/useCart.ts'
 
 
 function App() {
@@ -25,7 +25,6 @@ function App() {
     addItem={addItem}
     removeItem={removeItem}
     removeFromCart={removeFromCart}
-    setCart={setCart}
     cart={cart}
     isEmpty={isEmpty}
     carTotal={carTotal}
@@ -39,7 +38,6 @@ function App() {
                 <Nike
                 key={pen.id}
                     nike={pen}
-                    setCart={setCart}
                     addToCart={addToCart}
                 />
             ))}

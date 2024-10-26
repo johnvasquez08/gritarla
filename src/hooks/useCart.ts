@@ -1,13 +1,15 @@
 import { useState, useEffect, useMemo } from 'react'
 import { db } from '../db/db'
+import type { Nike, CartItem } from "../types/index";
+
 
 
 export function useCart(){
-    const initialCart = () => {
+    const initialCart = () : CartItem[] =>  {
         const localStorageCart = localStorage.getItem('cart')
         return localStorageCart ? JSON.parse(localStorageCart) : []
     }
-    const [data, setData] = useState(db)
+    const [data] = useState(db)
     const [cart, setCart] = useState(initialCart)
     useEffect(()=> {
         localStorage.setItem('cart', JSON.stringify(cart))
@@ -17,26 +19,26 @@ export function useCart(){
     const MAX_ITEMS = 5
     const MIN_ITEMS = 1
 
-    function addToCart(item){
+    function addToCart(item : Nike){
         const itemExist = cart.findIndex((nike) => nike.id === item.id)
         if(itemExist >= 0){
             const updateCart = [...cart]
             updateCart[itemExist].quantity++
             setCart(updateCart)
         } else {
-            item.quantity = 1
-            setCart(cart=>[...cart, item])
+            const newItem : CartItem = {...item, quantity : 1}
+            setCart(cart=>[...cart, newItem])
             console.log('El producto no existe, agregando')
         }
         console.log(cart)
     }
 
 
-    function removeFromCart(id){
+    function removeFromCart(id : Nike['id']){
         setCart(prevCart => prevCart.filter(nike => nike.id !== id))
     }
 
-    function addItem(id){
+    function addItem(id : Nike['id']){
         const updateCart = cart.map((item) => {
             if(item.id === id && item.quantity < MAX_ITEMS){
                 item.quantity++
@@ -45,7 +47,7 @@ export function useCart(){
         })
         setCart(updateCart)
     }
-    function removeItem(id){
+    function removeItem(id : Nike['id']){
         const updateCart = cart.map((item) => {
             if(item.id === id && item.quantity > MIN_ITEMS){
                 item.quantity--

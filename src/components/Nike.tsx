@@ -1,11 +1,12 @@
+import { CartActions } from "../reducers/cart-reducer";
 import type { Nike } from "../types"
 
 type NikeProps = {
     nike: Nike
-    addToCart: (item: Nike) => void
+    dispatch: React.Dispatch<CartActions>
 }
 
-export default function Nike({nike, addToCart} : NikeProps) {
+export default function Nike({nike, dispatch} : NikeProps) {
     const { name, description, price, image } = nike;
     return (
         <div className="col-md-6 col-lg-4 my-4 row align-items-center">
@@ -19,7 +20,7 @@ export default function Nike({nike, addToCart} : NikeProps) {
                     <button 
                         type="button"
                         className="btn btn-dark w-100"
-                        onClick={() => addToCart(nike)}
+                        onClick={() => dispatch({type: "addtoCart", payload: {item: nike}})}
                     >Agregar al Carrito</button>
                 </div>
             </div>
